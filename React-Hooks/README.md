@@ -43,4 +43,15 @@ useEffect(() => {
 );
 ```
 
+### useMemo Hook:
 
+`useMemo:` memoizes the value and returns the same value until any dependacies in the dependancy array changes until then
+it will recompute a new value
+
+```
+const selectedItem = useMemo(() =>
+  inline function something it should return a value
+  ,[] -> dependacy array which controls as long as nothing in the dependancy array changes it will simply
+  return the value that computed at first time
+);
+```
