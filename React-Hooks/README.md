@@ -21,3 +21,26 @@ const[count, setCount] = useState(0);
 
 `useState():` if you don't put state value will be `undefined`
 
+### useEffect Hook:
+
+`In React`, component `mounting` refers to the process where a component instance is created and inserted into the Document Object Model (DOM). Conversely, `unmounting` is the process of removing a component from the DOM and cleaning up any associated resources.
+
+`useEffect:` A hook from react that is used perform side effects in application something happened, changeded or triggered
+
+```
+useEffect(() => {
+
+    The code that we want to run
+    // Code
+
+    Optional return function
+    // Cleanup function
+    return () => {
+      console.log("Component unmounted, count was:", count);
+    }
+
+}, [] -> Depenacy Array
+);
+```
+
+
