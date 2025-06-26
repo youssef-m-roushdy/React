@@ -1,54 +1,80 @@
-import { useMemo, useState } from "react";
+import { use, useCallback, useState } from "react";
 import "./App.css";
-import { initialItems } from "./utils";
+import Search from "./Search";
+
+let allUsers = [
+  "Youssef",
+  "Ahmed",
+  "Mohamed",
+  "Ali",
+  "Sara",
+  "Fatma",
+  "Hassan",
+];
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [items] = useState(initialItems);
+  const [users, setUsers] = useState(allUsers);
 
-  const handleIncreament = () => {
-    setCount(count + 1);
+  // before using useCallback
+  // the log in the Search component will be printed every time the App component re-renders
+  // even if the Search component is not changed
+  // this cause when shuffle button is clicked, the Search component will re-render
+  // and function just like have a dynamic id and every time the App component re-renders
+  // this function will be created again with new id and log will be printed
+  // beacause even if the fuction created the same if you compare the two functions
+  // prev function = newCreated same function will be false
+  // so if you it will make an issue in case it renders a expensive or conpenent with alot of children
+  // const handleSearch = (searchText) => {
+  //   const text = searchText.toLowerCase();
+  //   const filteredUsers = allUsers.filter((user) =>
+  //     user.toLowerCase().includes(text)
+  //   );
+  //   setUsers(filteredUsers);
+  // } // before using useCallback
+
+
+  // using useCallback: what it does it will wrap the function and return the same function memory address
+  // as long as the dependancy array is not changed
+  // so if you pass an empty array it will return the same function memory address
+  // so the Search component will not re-render unless the function changes
+  // controls when the function should different
+  const handleSearch = useCallback((searchText) => {
+    console.log(users[0]); // issue with this line
+    // it will always log the first user in the users array
+    // because the users state is not updated yet when the function is called
+    // this is because the function is created with the initial state of users
+    // put users in the dependancy array
+    // so the function will be recreated when the users state changes
+    const text = searchText.toLowerCase();
+    const filteredUsers = allUsers.filter((user) =>
+      user.toLowerCase().includes(text)
+    );
+    setUsers(filteredUsers);
+  }, [users]); // using useCallback
+
+  const shuffle = (array) => {
+
+    return () => {
+      const shuffledArray = [...array].sort(() => Math.random() - 0.5);
+      setUsers(shuffledArray);
+    };
   };
 
-  // Every time count increases, we find the selected item this causes performance lag.
-  // This is an expensive operation, especially with a large array.
-  // In a real-world scenario, you would want to optimize this.
-  // This causes a performance issue because it iterates through the entire array again and again every time the count changes.
-  // The selected item is always the last so it causes a that performance issue becuase it should iterate to the end of the array to get the selected item.
-  // This is a bad practice in React, especially with large arrays.
-  // this is unessary computation that can be avoided by using a more efficient state management approach or memoization.
-  // Now: how can i fix it uses useMemo
-  // So the item and the selectedItem is the same, the selectedItem is always the last item in the array.
-  // So we can use useMemo to memoize the selected item and avoid unnecessary computation.
-  // so we can return the previos value if the items array is not changed and no need to compute it again.
-
-  //const selectedItem = items.find((item) => item.isSelected); // old with leak performance without using useMemo
-
-  // const selectedItem = useMemo(() =>
-  //   items.find((item) => item.isSelected)
-  //   ,[items] // When items is different, it will recompute the selected item value
-  // );
-
-  const selectedItem = useMemo(() =>
-    items.find((item) => item.id === count) 
-    ,[count, items] // A common mistake because they forget to put proper dependancies in the dependancy array, include count and items
-    // Now when count changes, it will recompute the selected item value
-    // and when items changes, it will recompute the selected item value
-    // This is a good practice to avoid unnecessary computation and improve performance.
-  );
-
-  // its nessary to use useMemo when you have an expensive computation that you want to avoid running on every render.
-  // only in this case you should use useMemo, otherwise you can just use the normal state management.
-
+ 
   return (
     <>
-      <div>
-        <h1>Count: {count}</h1>
-        <h1>Selected item: {selectedItem?.id}</h1>
-        <button onClick={handleIncreament} className="btn-green">
-          Increament +
-        </button>
+      <div className="tutorial">
+        <div className="container">
+          <button className="btn-green" onClick={shuffle(allUsers)}>Shuffle</button>
+          <Search onChange={handleSearch}/>
+        </div>
+
       </div>
+      <ul>
+        {users.map((user, index) => (
+          <li key={index}>{user}</li>
+        ))}
+      </ul>
     </>
   );
 }

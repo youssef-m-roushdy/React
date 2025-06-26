@@ -55,3 +55,14 @@ const selectedItem = useMemo(() =>
   return the value that computed at first time
 );
 ```
+
+### useCallback
+
+`useCallback:` Keep the same function to skip rerender of components that props not changed
+that may cause performane issue if this component render multiple children so freez the function until the function need to unfreeze
+
+```
+const handleSearch = useCallback((searchText) => {
+   function you want to freeze
+}, [] -> array of dependancies that controll when function should changes);
+```

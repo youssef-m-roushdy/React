@@ -32,3 +32,6 @@ button:disabled {
   cursor: not-allowed;
 }
 
+input {
+  padding: 10px 20px;
+}
