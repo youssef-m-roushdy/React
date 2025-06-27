@@ -56,7 +56,7 @@ const selectedItem = useMemo(() =>
 );
 ```
 
-### useCallback
+### useCallback Hook:
 
 `useCallback:` Keep the same function to skip rerender of components that props not changed
 that may cause performane issue if this component render multiple children so freez the function until the function need to unfreeze
@@ -66,3 +66,8 @@ const handleSearch = useCallback((searchText) => {
    function you want to freeze
 }, [] -> array of dependancies that controll when function should changes);
 ```
+
+### useContext Hook
+
+`useContext:` A way to store ant kind of data and have it accessable to component no matter where they are in you application
+un the tree to have access to data without need for props
