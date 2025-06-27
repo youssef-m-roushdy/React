@@ -82,8 +82,15 @@ export const DashboardContext = createContext(undefined);
 second wrap the component to make data accessable within any component:
 
 ```
-<DashboardContext.Provider value={user}>
-     
+<DashboardContext.Provider value={user}>  
   <Dashboard/>
 </DashboardContext.Provider>
+```
+
+### useRef hook:
+
+`useRef:` used whenever you want reference a value that is not needed for rendering 
+
+```
+const countRef = useRef(0);
 ```
