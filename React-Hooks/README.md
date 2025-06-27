@@ -91,6 +91,82 @@ second wrap the component to make data accessable within any component:
 
 `useRef:` used whenever you want reference a value that is not needed for rendering 
 
+`Example-1:`
+
 ```
 const countRef = useRef(0);
+```
+
+`Example-2:`
+
+```
+const inputRef = useRef(null);
+
+useEffect(() => {
+  // Focus the input element when the component mounts
+  inputRef.current?.focus();
+}, []);
+
+return (
+  <>
+    <div className="tutorial">
+      <input ref={inputRef} type="text" placeholder="Type something..." />
+    </div>
+  </>
+);
+```
+
+### useReducer Hook:
+
+`useReducer:` use to manage and update state in application follows the Redux pattern
+have alot of properties of values for your state and then having a reducer function
+which takes in that state object along with an action that you can define in your code
+and based off the action will do something something to that state we'll make a copy of
+the state to make some changes and that return the copy of the state to then overwrite and make new state
+
+```
+function reducer(state, action) {
+  const { type } = action;
+
+  switch (type) {
+    case "increment": {
+      const newCount = state.count + 1;
+      const hasError = newCount > 5;
+      return { ...state,
+        count: hasError 
+        ? state.count 
+        : newCount, 
+        error: hasError 
+        ? "Count cannot exceed 5" 
+        : null };
+    }
+    case "decrement": {
+      const newCount = state.count - 1;
+      const hasError = newCount < 0;
+      return { ...state,
+        count: hasError 
+        ? state.count 
+        : newCount, 
+        error: hasError 
+        ? "Count cannot be negative" 
+        : null };
+    }
+    default:
+      return state;
+  }
+}
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, { count: 0, error: null });
+  return (
+    <>
+      {state.error && <h2>Error: {state.error}</h2>}
+      <h1>Counter: {state.count}</h1>
+      <button className="btn-green" onClick={() => dispatch({ type: "increment" })}>Increment</button>
+      <button className="btn-red" onClick={() => dispatch({ type: "decrement" })}>Decrement</button>
+    </>
+  );
+}
+
+export default App;
 ```
