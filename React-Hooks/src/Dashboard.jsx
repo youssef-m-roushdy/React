@@ -1,11 +1,11 @@
 import React from "react";
 import { Profile, Sidebar } from "./Component";
 
-const Dashboard = ({ user }) => {
+const Dashboard = () => {
   return (
     <>
-      <Sidebar user={user}/>
-      <Profile user={user} />
+      <Sidebar/>
+      <Profile/>
     </>
   );
 };

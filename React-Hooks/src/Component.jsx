@@ -1,18 +1,22 @@
-import React from 'react'
+import React from "react";
+import { useUserContext } from "./context";
 
-export const Sidebar = ({user}) => {
+export const Sidebar = () => {
+  const user = useUserContext();
+  
   return (
     <>
-        <div>{user.name}</div>
-        <div>Subscription status: {user.isSubscribed ? "Subscribed": "Not subscribed"}</div>
+      <div>{user?.name}</div>
+      <div>
+        Subscription status:{" "}
+        {user?.isSubscribed ? "Subscribed" : "Not subscribed"}
+      </div>
     </>
-  )
-}
+  );
+};
 
+export const Profile = () => {
+  const user = useUserContext();
 
-export const Profile = ({user}) => {
-  return (
-    <div>{user.name}</div>
-  )
-}
-
+  return <div>{user?.name}</div>;
+};

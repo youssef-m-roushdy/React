@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import Dashboard from "./Dashboard";
+import { DashboardContext } from "./context";
 
 function App() {
 
@@ -11,7 +12,10 @@ function App() {
 
   return (
     <>
-      <Dashboard user={user}/>
+    <DashboardContext.Provider value={user}>
+     
+      <Dashboard/>
+    </DashboardContext.Provider>
     </>
   );
 }

@@ -71,3 +71,19 @@ const handleSearch = useCallback((searchText) => {
 
 `useContext:` A way to store ant kind of data and have it accessable to component no matter where they are in you application
 un the tree to have access to data without need for props
+
+First define context:
+context.js:
+
+```
+export const DashboardContext = createContext(undefined);
+```
+
+second wrap the component to make data accessable within any component:
+
+```
+<DashboardContext.Provider value={user}>
+     
+  <Dashboard/>
+</DashboardContext.Provider>
+```
